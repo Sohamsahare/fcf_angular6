@@ -8,6 +8,7 @@ import { LandingComponent } from './landing/landing.component';
 import { NotFoundComponent } from './notfound/notfound.component';
 import { PlayComponent } from './play/play.component';
 import { ScoresComponent } from './scores/scores.component';
+import { TimerComponent } from './play/timer/timer.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ScoresComponent } from './scores/scores.component';
     LandingComponent,
     NotFoundComponent,
     PlayComponent,
-    ScoresComponent
+    ScoresComponent,
+    TimerComponent
   ],
   imports: [
     BrowserModule,
