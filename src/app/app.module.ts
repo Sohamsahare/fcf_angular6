@@ -10,6 +10,7 @@ import { ScoresComponent } from './scores/scores.component';
 import { TimerComponent } from './play/timer/timer.component';
 import { HttpClientModule} from '@angular/common/http';
 import { ScoresService } from '../services/scores.service';
+import { CardComponent } from './play/card/card.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { ScoresService } from '../services/scores.service';
     PlayComponent,
     ScoresComponent,
     TimerComponent,
+    CardComponent,
   ],
   imports: [
     BrowserModule,
