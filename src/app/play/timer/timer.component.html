@@ -1,8 +1,5 @@
-<p>
-  timer works!
-</p>
-<div class="timer-container" >
+<div class="timer-container" id = "timer-box" >
   <h3>
-    {{(timeInMilliseconds / (60 * 1000))}} : {{ (timeInMilliseconds / 1000) }} 
+    {{getMinutes()}} : {{getSeconds()}} : {{getMiniSeconds()}}
   </h3>
 </div>
