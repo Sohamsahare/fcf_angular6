@@ -1,3 +1,16 @@
-<p>
-  scores works!
-</p>
+<table class="table table-light table-striped align-center">
+  <thead>
+    <tr>
+      <th scope="col">GameId</th>
+      <th scope="col">PlayedAt</th>
+      <th scope="col">Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor = " let score of scores" >
+      <th scope="row">{{score.id}}</th>
+      <td>{{score.playedAt}}</td>
+      <td>{{score.score}}</td>
+    </tr>
+  </tbody>
+</table>
