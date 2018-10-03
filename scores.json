@@ -1,24 +1,4 @@
 {
-    "Scores":[
-        {
-            "id" : 1,
-            "playedAt": "12:00 PM",
-            "score" : 9999
-        },
-        {
-            "id": 2,
-            "playedAt": "1:00 PM",
-            "score": 99990
-        },
-        {
-            "id": 3,
-            "playedAt": "2:00 PM",
-            "score": 999912
-        },
-        {
-            "id": 4,
-            "playedAt": "3:00 PM",
-            "score": 12999912
-        }
-    ]
+  "Scores": [
+  ]
 }

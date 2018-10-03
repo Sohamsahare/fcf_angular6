@@ -3,13 +3,15 @@
     <tr>
       <th scope="col" >GameId</th>
       <th scope="col" >PlayedAt</th>
+      <th scope="col">MaxMultiplier</th>
       <th scope="col" >Score</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor = " let score of scores" >
-      <th scope="row">{{score.id}}</th>
+    <tr *ngFor = " let score of scores; index as i;">
+      <th scope="row">{{i+1}}</th>
       <td>{{score.playedAt}}</td>
+      <td>{{score.maxMultiplier}}</td>
       <td>{{score.score}}</td>
     </tr>
   </tbody>

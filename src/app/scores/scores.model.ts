@@ -1,5 +1,6 @@
 export class Scores{
-    id:number;
+    id?:number;
     playedAt:string;
+    maxMultiplier:number;
     score:number;
 }
