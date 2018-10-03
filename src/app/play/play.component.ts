@@ -117,8 +117,13 @@ export class PlayComponent implements AfterViewInit {
       score:this.score
     };
     clearInterval(this.randomCardIntervalId);
+    for (let i = 0; i < this.cards.length; i++) {
+      let id = i+1;
+      let btn = <HTMLInputElement> document.getElementById("button_"+id);
+      btn.disabled = true;
+    }
     this.scoreService.postScores(scores).subscribe(() => {
-      // this.router.navigate['scores'];
+      this.router.navigate(['scores']);
     });
   }
 
