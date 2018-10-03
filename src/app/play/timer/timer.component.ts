@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-timer',
@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 
 export class TimerComponent implements OnInit {
 
+  @Output() time = new EventEmitter();
   timeInMilliseconds: number;
   private initalTime: number = 1000 * 20;
   private timeInterval : number = 10;
@@ -39,6 +40,7 @@ export class TimerComponent implements OnInit {
     this.timeInMilliseconds = this.initalTime;
     this.timerIntervalId =  setInterval(() => {
       this.timeInMilliseconds -= this.timeInterval;
+      this.emitTimer()
       if(this.timeInMilliseconds <= 0 ){
         this.stopTimer();
       }
@@ -50,6 +52,10 @@ export class TimerComponent implements OnInit {
       colourId++;  
     }
     ,(this.initalTime/3));
+  }
+
+  emitTimer(){
+    this.time.emit(this.timeInMilliseconds);
   }
 
   stopTimer(){

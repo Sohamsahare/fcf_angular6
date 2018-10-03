@@ -1,4 +1,4 @@
-<div class = "d-flex flex-row">
+<div class = "d-flex flex-row flex-wrap" id  = "play">
     <app-card *ngFor = "let card of cards" [card]="card" ></app-card>
 </div>
-<app-timer></app-timer>
+<app-timer (time) = 'setTimerTime($event)' ></app-timer>

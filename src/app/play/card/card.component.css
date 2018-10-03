@@ -4,3 +4,7 @@ div{
     background-color: white;
     margin : 2rem;
 }
+
+div:hover{
+    cursor: pointer;
+}
