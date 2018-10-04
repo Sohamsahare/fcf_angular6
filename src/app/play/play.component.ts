@@ -21,19 +21,24 @@ export class PlayComponent implements AfterViewInit {
   private timeStep = 250;
   // to clear setInterval() calls
   private randomCardIntervalId: any;
+  // score works like = baseScore * scoreMultiplier
   // score multiplier according to game speed
-  private scoreMultiplier : number = 1;
-  private maxMultiplier : number = this.scoreMultiplier;
+  private scoreMultiplier: number = 1;
   private baseScore: number = 10;
-  private penaltyScore : number = 20;
+  // on incorrect click, points are deducted from the score
+  private penaltyScore: number = 20;
+  // maxMultiplier achieved in a game session
+  private maxMultiplier: number = this.scoreMultiplier;
   // count after which gameSpeed increases
   private gameSpeedIncrementClicks = 3;
   // time game session started at
-  private timePlayedAt : string;
+  private timePlayedAt: string;
+  // to toggle game logic
+  private isGameRunning: boolean;
 
   // variables used for binding data
-  score : number = 0;
-  timerInMs : number = 1000;
+  score: number = 0;
+  timerInMs: number = 1000;
 
   // determines number of cards in game
   cardcount: number = 4;
@@ -44,10 +49,10 @@ export class PlayComponent implements AfterViewInit {
   timeToRandomInMs: number = this.initialTimeToRandom;
 
   // to handle scores and gameSpeed
-  countSuccessClicks : number = 0;
+  countSuccessClicks: number = 0;
 
 
-  constructor(private scoreService : ScoresService, private router : Router) {
+  constructor(private scoreService: ScoresService, private router: Router) {
     this.initialiseCards();
     let date = new Date();
     this.timePlayedAt = date.toLocaleDateString() + " " + date.toLocaleTimeString();
@@ -55,12 +60,13 @@ export class PlayComponent implements AfterViewInit {
 
   // called after all views are initialised
   ngAfterViewInit() {
+    this.isGameRunning = true;
     this.randomWithNewTime();
   }
 
   // randomly selects a card and
   // changes old card to white and new card to green
-  randomiseCards(){
+  randomiseCards() {
     let elem = document.getElementById("play");
     elem.style.width = this.getWidth();
     if (this.timerInMs <= 100) {
@@ -77,16 +83,16 @@ export class PlayComponent implements AfterViewInit {
 
   // Changes width property so that cards appear as a grid
   // TODO: fix this. 
-  getWidth() : string{
+  getWidth(): string {
     let width = '40%';
     if (this.cardcount >= 0 && this.cardcount < 5) {
       width = '40%';
-    }else if(this.cardcount > 4 && this.cardcount < 7){
+    } else if (this.cardcount > 4 && this.cardcount < 7) {
       width = '60%';
-    }else if (this.cardcount > 6 && this.cardcount < 9) {
+    } else if (this.cardcount > 6 && this.cardcount < 9) {
       width = '80%';
     }
-    else{
+    else {
       width = '100%';
     }
     return width;
@@ -96,7 +102,7 @@ export class PlayComponent implements AfterViewInit {
   initialiseCards() {
     this.randomCard();
     for (let card = 0; card < this.cards.length; card++) {
-      this.cards[card] = { id: card + 1, isGreen: (card == this.lastRandomNumber - 1) ? true : false};
+      this.cards[card] = { id: card + 1, isGreen: (card == this.lastRandomNumber - 1) ? true : false };
     }
   }
 
@@ -111,16 +117,18 @@ export class PlayComponent implements AfterViewInit {
   }
 
   // stops the interval for random cards
-  endGame(){
-    let scores : Scores = {
-      playedAt:this.timePlayedAt,
-      maxMultiplier:this.maxMultiplier,
-      score:this.score
+  endGame() {
+    let scores: Scores = {
+      playedAt: this.timePlayedAt,
+      maxMultiplier: this.maxMultiplier,
+      score: this.score
     };
+    this.isGameRunning = false;
+    // clear all setInterval calls  
     clearInterval(this.randomCardIntervalId);
     for (let i = 0; i < this.cards.length; i++) {
-      let id = i+1;
-      let btn = <HTMLInputElement> document.getElementById("button_"+id);
+      let id = i + 1;
+      let btn = <HTMLInputElement> document.getElementById("button_" + id);
       btn.disabled = true;
     }
     this.scoreService.postScores(scores).subscribe(() => {
@@ -130,34 +138,38 @@ export class PlayComponent implements AfterViewInit {
 
   // used to fetch time from timer component
   // and set it here
-  setTimerTime(time : number){
+  setTimerTime(time: number) {
     this.timerInMs = time;
   }
 
-  getCardClick(isClickedGreen : boolean){
-    console.log("GameSpeed: "+this.timeToRandomInMs+" Multiplier: "+this.scoreMultiplier);
-    if(isClickedGreen){
-      this.countSuccessClicks++;
-      if(this.countSuccessClicks >= this.gameSpeedIncrementClicks){
-        this.timeToRandomInMs -= this.timeStep;
-        if(this.timeToRandomInMs <=  this.minTimeToRandom){
-          this.timeToRandomInMs = this.minTimeToRandom;
+  getCardClick(isClickedGreen: boolean) {
+    console.log("GameSpeed: " + this.timeToRandomInMs / 1000 + " Multiplier: " + this.scoreMultiplier + "x the base score: " + this.baseScore);
+    if (this.isGameRunning) {
+      if (isClickedGreen) {
+        this.countSuccessClicks++;
+        if (this.countSuccessClicks >= this.gameSpeedIncrementClicks) {
+          this.timeToRandomInMs -= this.timeStep;
+          if (this.timeToRandomInMs <= this.minTimeToRandom) {
+            this.timeToRandomInMs = this.minTimeToRandom;
+          }
+          this.handleMultiplier();
         }
-        this.handleMultiplier();
+        clearInterval(this.randomCardIntervalId);
+        this.randomWithNewTime();
+        this.score += this.baseScore * this.scoreMultiplier;
       }
-      clearInterval(this.randomCardIntervalId);
-      this.randomWithNewTime();
-      this.score += this.baseScore * this.scoreMultiplier;
-    }
-    else{
-      this.resetMultiplier();
-      clearInterval(this.randomCardIntervalId);
-      this.timeToRandomInMs = this.initialTimeToRandom;
-      this.randomWithNewTime();
-      this.score -= this.penaltyScore;
-      if(this.score<=0){
-        this.score = 0;
+      else {
+        this.resetMultiplier();
+        clearInterval(this.randomCardIntervalId);
+        this.timeToRandomInMs = this.initialTimeToRandom;
+        this.randomWithNewTime();
+        this.score -= this.penaltyScore;
+        if (this.score <= 0) {
+          this.score = 0;
+        }
       }
+    }else{
+      console.log(this.timerInMs/1000);
     }
   }
 
@@ -170,7 +182,7 @@ export class PlayComponent implements AfterViewInit {
     // increases multiplier
     this.scoreMultiplier++;
     // replaces maxMultiplier 
-    if(this.scoreMultiplier > this.maxMultiplier){
+    if (this.scoreMultiplier > this.maxMultiplier) {
       this.maxMultiplier = this.scoreMultiplier;
     }
     // reset click count
