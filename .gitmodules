@@ -1,0 +1,3 @@
+[submodule "json-server-heroku"]
+	path = json-server-heroku
+	url = https://git.heroku.com/peaceful-basin-27707.git

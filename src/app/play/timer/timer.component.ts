@@ -12,7 +12,7 @@ export class TimerComponent implements OnInit {
   @Output() time = new EventEmitter();
   // initialises timer to this amount of time in ms
   timeInMilliseconds: number;
-  private initalTime: number = 1000 * 5;
+  private initalTime: number = 1000 * 6;
   // how fast to update the time in the timer in ms
   private timeInterval : number = 10;
   // used to clear setInterval calls

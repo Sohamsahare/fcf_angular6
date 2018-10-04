@@ -11,12 +11,13 @@ import { Router } from '@angular/router';
 })
 
 export class PlayComponent implements AfterViewInit {
-  // subtract 1 from this number to change
+  // subtract 1 from this number as array indices start from 0
   private lastRandomNumber: number = 1;
   // after how many ms does a card change
   private initialTimeToRandom = 2000;
-  // maximum gameSpeed
+  // maximum gameSpeed -> 2 changes per second
   private minTimeToRandom = 500;
+  // timestep to increase the game speed by in ms
   private timeStep = 250;
   // to clear setInterval() calls
   private randomCardIntervalId: any;
