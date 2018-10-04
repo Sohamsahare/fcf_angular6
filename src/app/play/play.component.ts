@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 
 export class PlayComponent implements AfterViewInit {
+  
   // subtract 1 from this number as array indices start from 0
   private lastRandomNumber: number = 1;
   // after how many ms does a card change
@@ -58,10 +59,35 @@ export class PlayComponent implements AfterViewInit {
     this.timePlayedAt = date.toLocaleDateString() + " " + date.toLocaleTimeString();
   }
 
+  //  sets initial values to all cards
+  initialiseCards() {
+    this.randomCard();
+    for (let card = 0; card < this.cards.length; card++) {
+      this.cards[card] = { id: card + 1, isGreen: (card == this.lastRandomNumber - 1) ? true : false };
+    }
+  }
+
+  //randomly selects a card from the pool
+  randomCard() {
+    let randomNumber: number = Math.floor(Math.random() * (this.cardcount) + 1);
+    while (randomNumber == this.lastRandomNumber) {
+      randomNumber = Math.floor(Math.random() * (this.cardcount) + 1);
+    }
+    this.lastRandomNumber = randomNumber;
+    return randomNumber;
+  }
+
   // called after all views are initialised
   ngAfterViewInit() {
     this.isGameRunning = true;
     this.randomWithNewTime();
+  }
+
+  private randomWithNewTime() {
+    // randomly selects a card
+    this.randomiseCards();
+    // every timeToRandomInMs milliseconds cards are randomised
+    this.randomCardIntervalId = setInterval(() => { this.randomiseCards() }, this.timeToRandomInMs);
   }
 
   // randomly selects a card and
@@ -98,24 +124,6 @@ export class PlayComponent implements AfterViewInit {
     return width;
   }
 
-  //  sets initial values to all cards
-  initialiseCards() {
-    this.randomCard();
-    for (let card = 0; card < this.cards.length; card++) {
-      this.cards[card] = { id: card + 1, isGreen: (card == this.lastRandomNumber - 1) ? true : false };
-    }
-  }
-
-  //randomly selects a card from the pool
-  randomCard() {
-    let randomNumber: number = Math.floor(Math.random() * (this.cardcount) + 1);
-    while (randomNumber == this.lastRandomNumber) {
-      randomNumber = Math.floor(Math.random() * (this.cardcount) + 1);
-    }
-    this.lastRandomNumber = randomNumber;
-    return randomNumber;
-  }
-
   // stops the interval for random cards
   endGame() {
     let scores: Scores = {
@@ -143,7 +151,7 @@ export class PlayComponent implements AfterViewInit {
   }
 
   getCardClick(isClickedGreen: boolean) {
-    console.log("GameSpeed: " + this.timeToRandomInMs / 1000 + " Multiplier: " + this.scoreMultiplier + "x the base score: " + this.baseScore);
+    console.log("GameSpeed: " + this.timeToRandomInMs / 1000 + " Multiplier: " + this.scoreMultiplier + "x the base score " + this.baseScore);
     if (this.isGameRunning) {
       if (isClickedGreen) {
         this.countSuccessClicks++;
@@ -189,10 +197,5 @@ export class PlayComponent implements AfterViewInit {
     this.countSuccessClicks = 0;
   }
 
-  private randomWithNewTime() {
-    // randomly selects a card
-    this.randomiseCards();
-    // every timeToRandomInMs milliseconds cards are randomised
-    this.randomCardIntervalId = setInterval(() => { this.randomiseCards() }, this.timeToRandomInMs);
-  }
+
 }
