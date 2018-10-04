@@ -56,7 +56,7 @@ export class PlayComponent implements AfterViewInit {
   constructor(private scoreService: ScoresService, private router: Router) {
     this.initialiseCards();
     let date = new Date();
-    this.timePlayedAt = date.toLocaleDateString() + " " + date.toLocaleTimeString();
+    this.timePlayedAt = date.toLocaleTimeString() + " " + date.toLocaleDateString();
   }
 
   //  sets initial values to all cards
