@@ -12,6 +12,7 @@ import { HttpClientModule} from '@angular/common/http';
 import { ScoreCardService } from '../services/scorecard.service';
 import { CardComponent } from './play/card/card.component';
 import { TextComponent } from './play/text/text.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { TextComponent } from './play/text/text.component';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     AppRoutingModule
   ],

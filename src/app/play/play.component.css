@@ -10,3 +10,11 @@
 button{
     font-size: 2rem;
 }
+
+.lead{
+    color: white;
+    padding: .5rem;
+}
+input{
+    margin: .5rem;
+}

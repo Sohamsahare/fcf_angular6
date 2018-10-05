@@ -1,11 +1,17 @@
 <div class="parent">
     <app-text [score] = "score"></app-text>
-    <div class = "card-deck d-flex justify-content-center" id  = "play">
+    <div class = "card-deck d-flex justify-content-center" id  = "play" >
         <app-card *ngFor = "let card of cards" [card]="card" (clickEventEmitter)='getCardClick($event)'></app-card>
     </div>
     <div class="buttonContainer">
-        <button *ngIf="!hasGameStarted" type="button" class="btn btn-success btn-lg" (click)="play()" >PLAY!</button>
-        <app-timer *ngIf="hasGameStarted" (time) = 'setTimerTime($event)' (initialTime) = 'setInitialTime($event)' ></app-timer>
+        <div  *ngIf="!hasGameStarted">
+            <span class="lead">Game Time:</span>
+            <input [(ngModel)]="gameTime" type="number" placeholder="In Minutes" >
+            <!-- <span class="lead">Number of Cards:</span>
+            <input [(ngModel)]="cardCount" type="number" placeholder="Atleast 4 cards"> -->
+            <button type="button" class="btn btn-success btn-lg" (click)="play()" >PLAY!</button>
+        </div>
+        <app-timer *ngIf="hasGameStarted" [gameTime]="gameTime * 60 * 1000" (time)="setTimerTime($event)"></app-timer>
     </div>
 </div>
 

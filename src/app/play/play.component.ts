@@ -11,25 +11,28 @@ import { GameService } from '../../services/game.service';
 })
 
 export class PlayComponent implements AfterViewInit {
-  
+
   // variables used for binding data
   score: number = 0;
-  cards: Card[] ;
-  hasGameStarted : boolean = false;
+  cards: Card[];
+  hasGameStarted: boolean = false;
+  gameTime: number;
+  cardCount: number;
+
   constructor(private scoreService: ScoreCardService, private router: Router, private gameService: GameService) {
-    this.cards = gameService.initialiseCards();
+    this.cards = this.gameService.initialiseCards();
   }
 
   // called after all views are initialised
   ngAfterViewInit() {
   }
-  
-  setInitialTime(initialTime:number){
-    setTimeout(() => { this.onEndGame();  }, initialTime);
-  }
-  
-  play(){
+
+  play() {
+    let time = this.gameTime * 60 * 1000;
+    this.gameService.timerInMs = time;
+    // this.gameService.cardcount = (this.cardCount > 3) ? this.cardCount : 4;
     this.gameService.startGame();
+    setTimeout(() => { this.onEndGame(); }, time);
     this.hasGameStarted = true;
   }
 
@@ -48,6 +51,6 @@ export class PlayComponent implements AfterViewInit {
   }
 
   getCardClick(isClickedGreen: boolean) {
-    this.score =  this.gameService.getCardClick(isClickedGreen);
+    this.score = this.gameService.getCardClick(isClickedGreen);
   }
 }

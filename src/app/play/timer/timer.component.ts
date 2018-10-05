@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-timer',
@@ -10,10 +10,10 @@ export class TimerComponent implements OnInit {
   // used to pass time remaining from timer to
   // parent class
   @Output() time = new EventEmitter();
-  @Output() initialTime = new EventEmitter();
+  // @Output() initialTime = new EventEmitter();
   // initialises timer to this amount of time in ms
   timeInMilliseconds: number;
-  private gameTime: number = 1000 * 10;
+  @Input() gameTime: number = 1000 * 10;
   // how fast to update the time in the timer in ms
   private timeInterval : number = 10;
   // used to clear setInterval calls
@@ -23,8 +23,10 @@ export class TimerComponent implements OnInit {
   // timer colour changes from green to these colours every 1/3rd initialTime
   private colours: string[] = ['#FFFF00','#DC3545'];
 
+
+
   ngOnInit() {
-    this.initialTime.emit(this.gameTime);
+    //this.initialTime.emit(this.gameTime);
     this.startTimer();
   }
 
