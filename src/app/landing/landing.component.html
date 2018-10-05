@@ -1,8 +1,10 @@
-<div class="text-center">
-  <h1>Fastest Clicker First</h1>
-  <p class="lead">How much can click, before you run out of clock ticks?</p>
-</div>
-
-<div class="buttons d-flex flex-column text-center">
-  <app-button *ngFor = "let route of routes" [name] = "route.text" [routerLink] = "route.url" ></app-button>
+<div class="body">
+  <div class="text-center">
+    <h1>Fastest Clicker First</h1>
+    <p class="lead">How much can one click, before he runs out of clock ticks?</p>
+  </div>
+  
+  <div class="buttons d-flex flex-column text-center">
+    <app-button *ngFor = "let route of routes" [name] = "route.text" [routerLink] = "route.url" ></app-button>
+  </div>
 </div>

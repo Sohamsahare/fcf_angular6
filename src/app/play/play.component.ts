@@ -15,29 +15,28 @@ export class PlayComponent implements AfterViewInit {
   // variables used for binding data
   score: number = 0;
   cards: Card[] ;
-  private gameTimeId : any;
-  private initialTime : number;
+  hasGameStarted : boolean = false;
   constructor(private scoreService: ScoreCardService, private router: Router, private gameService: GameService) {
     this.cards = gameService.initialiseCards();
   }
 
   // called after all views are initialised
   ngAfterViewInit() {
-    this.gameService.startGame();
   }
-
+  
   setInitialTime(initialTime:number){
-    this.initialTime = initialTime;
-    
-    this.gameTimeId = setTimeout(() => { this.onEndGame();  }, initialTime);
+    setTimeout(() => { this.onEndGame();  }, initialTime);
+  }
+  
+  play(){
+    this.gameService.startGame();
+    this.hasGameStarted = true;
   }
 
   // stops the interval for random cards
   onEndGame() {
     let scores = this.gameService.endGame();
-    console.log("posting to scores");
     this.scoreService.postScores(scores).subscribe(() => {
-      console.log("posted to scores");
       this.router.navigate(['scores']);
     });
   }

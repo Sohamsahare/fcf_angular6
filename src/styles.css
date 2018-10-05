@@ -3,5 +3,6 @@
 @import "~font-awesome/css/font-awesome.css";
 
 body{
-    background-color: whitesmoke;
+    background: url("assets/darksky.png") ;
+    background-color: #0C290A;
 }

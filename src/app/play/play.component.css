@@ -1,5 +1,12 @@
-
-
 .card-columns{
     column-count: 2;
+}
+.buttonContainer{
+    display: flex;
+    justify-content: center;
+    margin: 2rem;
+}
+
+button{
+    font-size: 2rem;
 }
