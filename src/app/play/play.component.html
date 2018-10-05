@@ -1,6 +1,6 @@
 <div class="parent">
     <app-text [score] = "score"></app-text>
-    <div class = "card-columns" id  = "play">
+    <div class = "card-deck d-flex justify-content-center" id  = "play">
         <app-card *ngFor = "let card of cards" [card]="card" (clickEventEmitter)='getCardClick($event)'></app-card>
     </div>
     <app-timer (time) = 'setTimerTime($event)' ></app-timer>

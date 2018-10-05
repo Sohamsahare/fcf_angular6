@@ -16,14 +16,14 @@ export class PlayComponent implements AfterViewInit {
   private lastRandomNumber: number = 1;
   // after how many ms does a card change
   private initialTimeToRandom = 2000;
-  // maximum gameSpeed -> 2 changes per second
-  private minTimeToRandom = 500;
+  // maximum gameSpeed -> 3 changes per second
+  private minTimeToRandom = 333;
   // timestep to increase the game speed by in ms
   private timeStep = 250;
   // to clear setInterval() calls
   private randomCardIntervalId: any;
   // score works like = baseScore * scoreMultiplier
-  // score multiplier according to game speed
+  // score multiplier increases with game speed
   private scoreMultiplier: number = 1;
   private baseScore: number = 10;
   // on incorrect click, points are deducted from the score
@@ -80,6 +80,7 @@ export class PlayComponent implements AfterViewInit {
   // called after all views are initialised
   ngAfterViewInit() {
     this.isGameRunning = true;
+    this.setColumnCount();
     this.randomWithNewTime();
   }
 
@@ -93,13 +94,11 @@ export class PlayComponent implements AfterViewInit {
   // randomly selects a card and
   // changes old card to white and new card to green
   randomiseCards() {
-    let elem = document.getElementById("play");
-    elem.style.width = this.getWidth();
     if (this.timerInMs <= 100) {
       this.endGame();
     }
     this.cards[this.lastRandomNumber - 1].isGreen = false;
-    elem = document.getElementById("card_" + this.cards[this.lastRandomNumber - 1].id);
+    let elem = document.getElementById("card_" + this.cards[this.lastRandomNumber - 1].id);
     elem.style.backgroundColor = 'white';
     let randomId: number = this.randomCard();
     this.cards[randomId - 1].isGreen = true;
@@ -109,19 +108,11 @@ export class PlayComponent implements AfterViewInit {
 
   // Changes width property so that cards appear as a grid
   // TODO: fix this. 
-  getWidth(): string {
-    let width = '40%';
-    if (this.cardcount >= 0 && this.cardcount < 5) {
-      width = '40%';
-    } else if (this.cardcount > 4 && this.cardcount < 7) {
-      width = '60%';
-    } else if (this.cardcount > 6 && this.cardcount < 9) {
-      width = '80%';
-    }
-    else {
-      width = '100%';
-    }
-    return width;
+  setColumnCount()  {
+    let columnCount = this.cardcount / 2;
+    columnCount = (columnCount > 5) ? 5: columnCount;
+    let elem =  document.getElementById('play');
+    elem.style.columnCount = columnCount;
   }
 
   // stops the interval for random cards

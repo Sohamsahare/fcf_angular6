@@ -13,6 +13,10 @@ export class CardComponent {
   // let parent know it was clicked
   @Output() clickEventEmitter = new EventEmitter();
 
+  ngAfterViewInit(){
+    // console.log(this.card.id);
+  }
+
   onClick(){
     if(this.card.isGreen){
       this.clickEventEmitter.emit(true);
