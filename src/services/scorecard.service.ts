@@ -6,7 +6,7 @@ import { Scores } from '../app/scores/scores.model';
   providedIn: 'root'
 })
 
-export class ScoresService {
+export class ScoreCardService {
   private url: string = 'https://peaceful-basin-27707.herokuapp.com';
   constructor(private http : HttpClient) { }
   

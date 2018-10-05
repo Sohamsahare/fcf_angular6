@@ -9,7 +9,7 @@ import { PlayComponent } from './play/play.component';
 import { ScoresComponent } from './scores/scores.component';
 import { TimerComponent } from './play/timer/timer.component';
 import { HttpClientModule} from '@angular/common/http';
-import { ScoresService } from '../services/scores.service';
+import { ScoreCardService } from '../services/scorecard.service';
 import { CardComponent } from './play/card/card.component';
 import { TextComponent } from './play/text/text.component';
 
@@ -31,7 +31,7 @@ import { TextComponent } from './play/text/text.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [ScoresService],
+  providers: [ScoreCardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

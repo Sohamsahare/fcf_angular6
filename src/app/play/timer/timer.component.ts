@@ -10,9 +10,10 @@ export class TimerComponent implements OnInit {
   // used to pass time remaining from timer to
   // parent class
   @Output() time = new EventEmitter();
+  @Output() initialTime = new EventEmitter();
   // initialises timer to this amount of time in ms
   timeInMilliseconds: number;
-  private initalTime: number = 1000 * 20;
+  private gameTime: number = 1000 * 10;
   // how fast to update the time in the timer in ms
   private timeInterval : number = 10;
   // used to clear setInterval calls
@@ -23,6 +24,7 @@ export class TimerComponent implements OnInit {
   private colours: string[] = ['#FFFF00','#DC3545'];
 
   ngOnInit() {
+    this.initialTime.emit(this.gameTime);
     this.startTimer();
   }
 
@@ -39,7 +41,7 @@ export class TimerComponent implements OnInit {
   }
 
   startTimer(){
-    this.timeInMilliseconds = this.initalTime;
+    this.timeInMilliseconds = this.gameTime;
     this.timerIntervalId =  setInterval(() => {
       this.timeInMilliseconds -= this.timeInterval;
       this.emitTimer()
@@ -53,7 +55,7 @@ export class TimerComponent implements OnInit {
       bgColour.style.backgroundColor = this.colours[colourId] ;
       colourId++;  
     }
-    ,(this.initalTime/3));
+      , (this.gameTime/3));
   }
 
   emitTimer(){

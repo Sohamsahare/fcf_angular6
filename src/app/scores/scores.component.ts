@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Scores } from './scores.model';
-import { ScoresService } from '../../services/scores.service';
+import { ScoreCardService } from '../../services/scorecard.service';
 
 @Component({
   selector: 'app-scores',
@@ -10,10 +10,10 @@ import { ScoresService } from '../../services/scores.service';
 export class ScoresComponent implements OnInit {
 
   scores : Scores[] ;
-  constructor(private scoresService : ScoresService) { }
+  constructor(private ScoreCardService : ScoreCardService) { }
 
   ngOnInit() {
-    this.scoresService.getScores().subscribe((scoresDb : Scores[]) => {
+    this.ScoreCardService.getScores().subscribe((scoresDb : Scores[]) => {
       this.scores = scoresDb;
     })
   }
