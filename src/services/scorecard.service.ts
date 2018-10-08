@@ -7,14 +7,14 @@ import { Scores } from '../app/scores/scores.model';
 })
 
 export class ScoreCardService {
-  private url: string = 'https://peaceful-basin-27707.herokuapp.com';
-  constructor(private http : HttpClient) { }
-  
-  getScores(){
-    return this.http.get(this.url+'/scores');
+  private url = 'https://peaceful-basin-27707.herokuapp.com';
+  constructor(private http: HttpClient) { }
+
+  getScores() {
+    return this.http.get(this.url + '/scores');
   }
 
-  postScores(score:Scores){
-    return this.http.post(this.url+'/scores',score);
+  postScores(score: Scores) {
+    return this.http.post(this.url + '/scores', score);
   }
 }

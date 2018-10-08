@@ -7,7 +7,7 @@ import { ButtonRoute } from './buttonroute.model';
   styleUrls: ['./landing.component.css']
 })
 export class LandingComponent implements OnInit {
-  routes : ButtonRoute[] = [
+  routes: ButtonRoute[] = [
     { text: 'PLAY', url: '/play' },
     { text: 'SCORES', url: '/scores' }
   ];

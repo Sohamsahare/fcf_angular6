@@ -9,13 +9,13 @@ import { ScoreCardService } from '../../services/scorecard.service';
 })
 export class ScoresComponent implements OnInit {
 
-  scores : Scores[] ;
-  constructor(private ScoreCardService : ScoreCardService) { }
+  scores: Scores[] ;
+  constructor(private scoreService: ScoreCardService) { }
 
   ngOnInit() {
-    this.ScoreCardService.getScores().subscribe((scoresDb : Scores[]) => {
+    this.scoreService.getScores().subscribe((scoresDb: Scores[]) => {
       this.scores = scoresDb;
-    })
+    });
   }
 
 }

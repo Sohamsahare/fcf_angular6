@@ -1,4 +1,4 @@
-export class Card{
+export class Card {
     id: number;
-    isGreen : boolean;
+    isGreen: boolean;
 }

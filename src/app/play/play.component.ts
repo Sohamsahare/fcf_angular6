@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2, ElementRef } from '@angular/core';
 import { Card } from './card/card.model';
 import { ScoreCardService } from '../../services/scorecard.service';
 import { Router } from '@angular/router';
@@ -13,13 +13,16 @@ import { GameService } from '../../services/game.service';
 export class PlayComponent implements AfterViewInit {
 
   // variables used for binding data
-  score: number = 0;
+  score = 0;
   cards: Card[];
-  hasGameStarted: boolean = false;
+  hasGameStarted = false;
   gameTime: number;
   cardCount: number;
 
-  constructor(private scoreService: ScoreCardService, private router: Router, private gameService: GameService) {
+  constructor(private scoreService: ScoreCardService,
+    private router: Router,
+    private gameService: GameService,
+    ) {
     this.cards = this.gameService.initialiseCards();
   }
 
@@ -28,7 +31,7 @@ export class PlayComponent implements AfterViewInit {
   }
 
   play() {
-    let time = this.gameTime * 60 * 1000;
+    const time = this.gameTime * 60 * 1000;
     this.gameService.timerInMs = time;
     // this.gameService.cardcount = (this.cardCount > 3) ? this.cardCount : 4;
     this.gameService.startGame();
@@ -38,7 +41,7 @@ export class PlayComponent implements AfterViewInit {
 
   // stops the interval for random cards
   onEndGame() {
-    let scores = this.gameService.endGame();
+    const scores = this.gameService.endGame();
     this.scoreService.postScores(scores).subscribe(() => {
       this.router.navigate(['scores']);
     });

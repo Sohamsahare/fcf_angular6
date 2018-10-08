@@ -15,56 +15,56 @@ export class TimerComponent implements OnInit {
   timeInMilliseconds: number;
   @Input() gameTime: number = 1000 * 10;
   // how fast to update the time in the timer in ms
-  private timeInterval : number = 10;
+  private timeInterval = 10;
   // used to clear setInterval calls
-  private timerIntervalId : any;
-  private colourIntervalId : any;
+  private timerIntervalId: any;
+  private colourIntervalId: any;
 
   // timer colour changes from green to these colours every 1/3rd initialTime
-  private colours: string[] = ['#FFFF00','#DC3545'];
+  private colours: string[] = ['#FFFF00', '#DC3545'];
 
 
 
   ngOnInit() {
-    //this.initialTime.emit(this.gameTime);
+    // this.initialTime.emit(this.gameTime);
     this.startTimer();
   }
 
-  getMinutes() : number{
-    return Math.floor(this.timeInMilliseconds / (1000 * 60)) ;    
+  getMinutes(): number {
+    return Math.floor(this.timeInMilliseconds / (1000 * 60)) ;
   }
 
-  getSeconds() : number{
-    return Math.floor(((this.timeInMilliseconds % 100000) / 1000)) ;    
+  getSeconds(): number {
+    return Math.floor(((this.timeInMilliseconds % 100000) / 1000)) ;
   }
 
-  getMiniSeconds() : number{
-    return Math.round(((this.timeInMilliseconds % 1000) / (10)) * 100) / 100;   
+  getMiniSeconds(): number {
+    return Math.round(((this.timeInMilliseconds % 1000) / (10)) * 100) / 100;
   }
 
-  startTimer(){
+  startTimer() {
     this.timeInMilliseconds = this.gameTime;
     this.timerIntervalId =  setInterval(() => {
       this.timeInMilliseconds -= this.timeInterval;
-      this.emitTimer()
-      if(this.timeInMilliseconds <= 0 ){
+      this.emitTimer();
+      if (this.timeInMilliseconds <= 0 ) {
         this.stopTimer();
       }
-    },this.timeInterval);
+    }, this.timeInterval);
     let colourId = 0;
-    this.colourIntervalId = setInterval(() =>{
-      let bgColour = document.getElementById('timer-box');
+    this.colourIntervalId = setInterval(() => {
+      const bgColour = document.getElementById('timer-box');
       bgColour.style.backgroundColor = this.colours[colourId] ;
-      colourId++;  
+      colourId++;
     }
-      , (this.gameTime/3));
+      , (this.gameTime / 3));
   }
 
-  emitTimer(){
+  emitTimer() {
     this.time.emit(this.timeInMilliseconds);
   }
 
-  stopTimer(){
+  stopTimer() {
     clearInterval(this.timerIntervalId);
     clearInterval(this.colourIntervalId);
   }

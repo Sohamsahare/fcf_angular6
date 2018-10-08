@@ -7,5 +7,5 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TextComponent   {
   // to set score from parent class
-  @Input() score : number;
+  @Input() score: number;
 }

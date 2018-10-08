@@ -8,7 +8,7 @@ import { Scores } from '../app/scores/scores.model';
 })
 export class GameService {
   // subtract 1 from this number as array indices start from 0
-  private lastRandomNumber: number = 1;
+  private lastRandomNumber = 1;
   // after how many ms does a card change
   private initialTimeToRandom = 2000;
   // maximum gameSpeed -> 3 changes per second
@@ -19,10 +19,10 @@ export class GameService {
   private randomCardIntervalId: any;
   // score works like = baseScore * scoreMultiplier
   // score multiplier increases with game speed
-  private scoreMultiplier: number = 1;
-  private baseScore: number = 10;
+  private scoreMultiplier = 1;
+  private baseScore = 10;
   // on incorrect click, points are deducted from the score
-  private penaltyScore: number = 20;
+  private penaltyScore = 20;
   // maxMultiplier achieved in a game session
   private maxMultiplier: number = this.scoreMultiplier;
   // count after which gameSpeed increases
@@ -33,9 +33,9 @@ export class GameService {
   private isGameRunning: boolean;
 
   // variables used for binding data
-  score: number = 0;
+  score = 0;
 
-  private _timerInMs: number = 1000;
+  private _timerInMs = 1000;
 
   public get timerInMs(): number {
     return this._timerInMs;
@@ -45,7 +45,7 @@ export class GameService {
   }
 
   // determines number of cards in game
-  cardcount: number = 4;
+  cardcount = 4;
   cards: Card[] = new Array(this.cardcount).fill({ id: 0, isGreen: false });
 
   // time after which card colour changes when player
@@ -53,12 +53,12 @@ export class GameService {
   timeToRandomInMs: number = this.initialTimeToRandom;
 
   // to handle scores and gameSpeed
-  countSuccessClicks: number = 0;
+  countSuccessClicks = 0;
 
 
   constructor(private router: Router) {
-    let date = new Date();
-    this.timePlayedAt = date.toLocaleTimeString() + " " + date.toLocaleDateString();
+    const date = new Date();
+    this.timePlayedAt = date.toLocaleTimeString() + ' ' + date.toLocaleDateString();
   }
 
   //  sets initial values to all cards
@@ -70,7 +70,7 @@ export class GameService {
     return this.cards;
   }
 
-  //randomly selects a card from the pool
+  // randomly selects a card from the pool
   randomCard() {
     let randomNumber: number = Math.floor(Math.random() * (this.cardcount) + 1);
     while (randomNumber == this.lastRandomNumber) {
@@ -90,41 +90,42 @@ export class GameService {
     // randomly selects a card
     this.randomiseCards();
     // every timeToRandomInMs milliseconds cards are randomised
-    this.randomCardIntervalId = setInterval(() => { this.randomiseCards() }, this.timeToRandomInMs);
+    this.randomCardIntervalId = setInterval(() => { this.randomiseCards(); }, this.timeToRandomInMs);
   }
 
   // randomly selects a card and
   // changes old card to white and new card to green
   randomiseCards() {
     this.cards[this.lastRandomNumber - 1].isGreen = false;
-    let elem = document.getElementById("card_" + this.cards[this.lastRandomNumber - 1].id);
+    let elem = document.getElementById('card_' + this.cards[this.lastRandomNumber - 1].id);
     elem.style.backgroundColor = 'white';
-    let randomId: number = this.randomCard();
+    const randomId: number = this.randomCard();
     this.cards[randomId - 1].isGreen = true;
-    elem = document.getElementById("card_" + this.cards[randomId - 1].id);
+    elem = document.getElementById('card_' + this.cards[randomId - 1].id);
     elem.style.backgroundColor = 'green';
   }
 
   // stops the interval for random cards
   endGame() {
-    let scores: Scores = {
+    const scores: Scores = {
       playedAt: this.timePlayedAt,
       maxMultiplier: this.maxMultiplier,
       score: this.score
     };
     this.isGameRunning = false;
-    // clear all setInterval calls  
+    // clear all setInterval calls
     clearInterval(this.randomCardIntervalId);
     for (let i = 0; i < this.cards.length; i++) {
-      let id = i + 1;
-      let btn = <HTMLInputElement>document.getElementById("button_" + id);
+      const id = i + 1;
+      const btn = <HTMLInputElement>document.getElementById('button_' + id);
       btn.disabled = true;
     }
     return scores;
   }
 
   getCardClick(isClickedGreen: boolean) {
-    console.log("GameSpeed: " + this.timeToRandomInMs / 1000 + " Multiplier: " + this.scoreMultiplier + "x the base score " + this.baseScore);
+    console.log('GameSpeed: ' + this.timeToRandomInMs / 1000 + ' Multiplier: ' +
+    this.scoreMultiplier + 'x the base score ' + this.baseScore);
     if (this.isGameRunning) {
       if (isClickedGreen) {
         this.countSuccessClicks++;
@@ -138,8 +139,7 @@ export class GameService {
         clearInterval(this.randomCardIntervalId);
         this.randomWithNewTime();
         this.score += this.baseScore * this.scoreMultiplier;
-      }
-      else {
+      } else {
         this.resetMultiplier();
         clearInterval(this.randomCardIntervalId);
         this.timeToRandomInMs = this.initialTimeToRandom;
@@ -163,7 +163,7 @@ export class GameService {
   private handleMultiplier() {
     // increases multiplier
     this.scoreMultiplier++;
-    // replaces maxMultiplier 
+    // replaces maxMultiplier
     if (this.scoreMultiplier > this.maxMultiplier) {
       this.maxMultiplier = this.scoreMultiplier;
     }

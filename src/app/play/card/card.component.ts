@@ -8,20 +8,15 @@ import { Card } from './card.model';
 })
 export class CardComponent {
   // reference to model class
-  @Input() card : Card;
+  @Input() card: Card;
 
   // let parent know it was clicked
   @Output() clickEventEmitter = new EventEmitter();
 
-  ngAfterViewInit(){
-    // console.log(this.card.id);
-  }
-
-  onClick(){
-    if(this.card.isGreen){
+  onClick() {
+    if (this.card.isGreen) {
       this.clickEventEmitter.emit(true);
-    }
-    else{
+    } else {
       this.clickEventEmitter.emit(false);
     }
   }

@@ -6,10 +6,10 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./button.component.css']
 })
 export class ButtonComponent implements OnInit {
-  @Input('name') name: string;
-  @Input('url') url:string;
-  
-  
+  @Input() name: string;
+  @Input() url: string;
+
+
   constructor() { }
 
   ngOnInit() {

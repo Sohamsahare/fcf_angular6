@@ -1,4 +1,4 @@
-export class ButtonRoute{
-    text:string;
-    url:string;
+export class ButtonRoute {
+    text: string;
+    url: string;
 }
